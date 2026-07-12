@@ -1,1 +1,11 @@
 @import "tailwindcss";
+@import "@heroui/styles"; 
+
+@theme {
+ 
+  --color-primary: #1e40af;     
+  --color-secondary: #0d9488;     
+  --color-accent: #f59e0b;        
+  --color-neutral-bg: #f9fafb;  
+  --radius-global: 12px;
+}
