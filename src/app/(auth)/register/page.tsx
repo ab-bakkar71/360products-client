@@ -1,4 +1,7 @@
 "use client";
+
+import { RegisterInput } from "@/interfaces/interfaces";
+import { authClient } from "@/lib/auth-client";
 import {
   Button,
   FieldError,
@@ -7,61 +10,101 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
+import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import {
-  FaEnvelope,
-  FaLock,
-  FaRegEye,
-  FaRegEyeSlash,
-  FaUser,
-} from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
+import { toast } from "react-toastify";
 
 const registerPage = () => {
-   const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const router = useRouter();
+
+  const handelRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const formData = new FormData(e.currentTarget);
+    const registerValues = Object.fromEntries(formData);
+
+    if (registerValues.password !== registerValues.confirmPassword) {
+      toast.error("Passwords do not match!");
+      setLoading(false);
+      return;
+    }
+
+    const registerData: RegisterInput = {
+      name: registerValues.name as string,
+      email: registerValues.email as string,
+      image: registerValues.image as string,
+      password: registerValues.password as string,
+    };
+
+    const { data, error } = await authClient.signUp.email({
+      name: registerData.name,
+      email: registerData.email,
+      password: registerData.password,
+      image: registerData.image,
+    });
+    if (!error) {
+      router.push("/login");
+    } else {
+      toast.error(error.message);
+    }
+    if (data) {
+      toast.success("Account created successfully!");
+    }
+    setLoading(false);
+  };
 
   return (
     <section className="min-h-[calc(100vh-70px)] w-full flex flex-col justify-center items-center bg-neutral-bg">
       <div className="flex w-full flex-col items-center justify-center bg-neutralBg p-4">
-        {/* ব্যানার কন্টেইনার */}
         <div className="relative flex w-full max-w-4xl flex-col items-center justify-center overflow-hidden rounded-[24px] bg-[#FF7E67] shadow-xl md:h-[320px] md:py-0">
           <h2 className="mb-4 text-4xl font-extrabold tracking-widest text-white md:mb-0">
             360Products
           </h2>
 
-          <div className="absolute top-1/2 left-4 hidden -translate-y-1/2 lg:block">
-            <img
-              src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=300"
+          <div className="absolute left-4 top-1/2 hidden h-66 w-66 -translate-y-1/2 lg:block">
+            <Image
+              src="https://i.ibb.co.com/S7wstFKH/photo-1542291026-7eec264c27ff-1.jpg"
               alt="Left Shoe"
-              className="h-44 w-auto object-contain -rotate-12"
+              fill
+              className="-rotate-12 object-contain"
+              sizes="176px"
             />
           </div>
           <div className="absolute top-1/2 right-4 hidden -translate-y-1/2 lg:block">
-            <img
-              src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=300"
-              alt="Right Shoe"
-              className="h-44 w-auto object-contain rotate-12"
-            />
+            <div className="absolute top-1/2 right-4 hidden h-44 w-44 -translate-y-1/2 lg:block">
+              <Image
+                src="https://i.ibb.co.com/fdzsFv0k/photo-1606107557195-0e29a4b5b4aa.jpg"
+                alt="Right Shoe"
+                fill
+                className="rotate-12 object-contain"
+                sizes="176px"
+                priority
+              />
+            </div>
           </div>
         </div>
 
-        {/* হোয়াইট ফর্ম কার্ড */}
         <div className="relative -mt-30 w-full max-w-md bg-white p-8 shadow-xl rounded-global border border-gray-100">
+          <h1 className="mb-4 text-3xl font-bold text-center text-primary">
+            Create Your Account
+          </h1>
           <Form
             validationBehavior="native"
             className="flex w-full flex-col gap-5"
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handelRegister}
           >
             {/* Full Name Input */}
             <TextField isRequired name="name" className="w-full">
-              <Label className="text-xs font-medium">
-                Full Name
-              </Label>
+              <Label className="text-xs font-medium">Full Name</Label>
               <Input
                 placeholder="Enter Your Name"
-                className="border border-zinc-800 text-white rounded-xl"
+                className="border border-zinc-800 text-black rounded-xl"
               />
               <FieldError className="text-rose-400 text-xs mt-1" />
             </TextField>
@@ -81,19 +124,17 @@ const registerPage = () => {
               <Label className=" text-xs font-medium">Email</Label>
               <Input
                 placeholder="Enter your email"
-                className=" text-white rounded-xl"
+                className=" text-black rounded-xl"
               />
               <FieldError className="text-rose-400 text-xs mt-1" />
             </TextField>
 
             {/* Image URL Field */}
             <TextField isRequired name="image" type="text">
-              <Label className=" text-xs font-medium">
-                Image URL
-              </Label>
+              <Label className=" text-xs font-medium">Image URL</Label>
               <Input
                 placeholder="https://example.com/avatar.jpg"
-                className=" border border-zinc-800 text-white rounded-xl"
+                className=" border border-zinc-800 text-black rounded-xl"
               />
               <FieldError className="text-rose-400 text-xs mt-1" />
             </TextField>
@@ -114,13 +155,11 @@ const registerPage = () => {
                   return null;
                 }}
               >
-                <Label className=" text-xs font-medium">
-                  Password
-                </Label>
+                <Label className=" text-xs font-medium">Password</Label>
                 <div className="relative flex items-center">
                   <Input
                     placeholder="••••••••"
-                    className=" border border-zinc-800 text-white rounded-xl w-full pr-10"
+                    className=" border border-zinc-800 text-black rounded-xl w-full pr-10"
                   />
                   <button
                     type="button"
@@ -143,13 +182,11 @@ const registerPage = () => {
                 name="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
               >
-                <Label className=" text-xs font-medium">
-                  Confirm Password
-                </Label>
+                <Label className=" text-xs font-medium">Confirm Password</Label>
                 <div className="relative flex items-center">
                   <Input
                     placeholder="••••••••"
-                    className=" border border-zinc-800 text-white rounded-xl w-full pr-10"
+                    className=" border border-zinc-800 text-black rounded-xl w-full pr-10"
                   />
                   <button
                     type="button"
@@ -170,10 +207,9 @@ const registerPage = () => {
             {/* Submit Button */}
             <Button
               type="submit"
-              className="w-full bg-black text-white font-semibold py-6 text-base shadow-lg transition-transform active:scale-[0.98] mt-2"
-              radius="md"
+              className="w-full bg-primary text-white font-semibold py-6 shadow-lg hover:bg-blue-500 transition-transform active:scale-[0.98] mt-2"
             >
-              Create Account
+              {loading ? "Creating Account..." : "Create Account"}
             </Button>
           </Form>
         </div>
