@@ -48,13 +48,12 @@ const registerPage = () => {
       password: registerData.password,
       image: registerData.image,
     });
-    if (!error) {
-      router.push("/login");
-    } else {
+    if (error) {
       toast.error(error.message);
     }
     if (data) {
       toast.success("Account created successfully!");
+      router.push("/login");
     }
     setLoading(false);
   };
