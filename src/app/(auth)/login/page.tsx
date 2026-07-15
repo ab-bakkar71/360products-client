@@ -72,6 +72,8 @@ const LoginPage = () => {
       router.push("/")
 
     }
+    const { data:tokenData } = await authClient.token();
+    console.log(tokenData);
 
     setTimeout(() => setLoading(false), 1500);
   };

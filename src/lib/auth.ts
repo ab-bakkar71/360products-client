@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { jwt } from "better-auth/plugins";
 
 const client = new MongoClient(process.env.MONGODB_URI as string);
 const db = client.db("360products");
@@ -14,12 +15,23 @@ export const auth = betterAuth({
     enabled: true,
   },
   user: {
-       additionalFields: {
-          role: {
-              type: "string",
-              input: false,
-              defaultValue: "user",
-            } 
-        }
+    additionalFields: {
+      role: {
+        type: "string",
+        input: false,
+        defaultValue: "user",
+      },
+    },
+  },
+
+  session:{
+    cookieCache:{
+        enabled: true,
+        strategy: "jwt",
+        maxAge: 5 * 24 * 60 * 60 //in second
+
     }
+  },
+
+  plugins: [jwt()],
 });
