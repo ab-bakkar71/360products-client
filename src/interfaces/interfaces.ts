@@ -11,9 +11,6 @@ export interface LoginInput {
 }
 
 export interface ProductInput {
-  _id?: string;
-
-
   title: string;
   shortDescription: string;
   fullDescription: string;
@@ -23,6 +20,10 @@ export interface ProductInput {
   image: string;
   userName:string;
   userEmail: string;
+}
+
+export interface Product extends ProductInput {
+  _id: string;
 }
 
 export interface ProductResponse {

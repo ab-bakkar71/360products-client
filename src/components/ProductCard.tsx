@@ -1,4 +1,4 @@
-import { ProductInput } from "@/interfaces/interfaces";
+import { Product } from "@/interfaces/interfaces";
 import { Card } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,57 +6,67 @@ import { BiSolidLocationPlus } from "react-icons/bi";
 import { TbCurrencyTaka } from "react-icons/tb";
 
 interface MyProductProps {
-  product: ProductInput;
+  product: Product;
 }
 
 const ProductCard = ({ product }: MyProductProps) => {
   return (
-    <Card className=" rounded-md relative" variant="secondary">
-      <div className="relative w-full aspect-square">
-        <Image
-          src={product.image}
-          alt={product.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover rounded-md"
-        ></Image>
-      </div>
-      <Card.Header>
-        <Card.Title className="text-xl">{product.title}</Card.Title>
-        <div className='flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mt-2'>
-          <p>{product.category}</p>
-        </div>
+    <Card
+  className="group overflow-hidden rounded-global border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:shadow-xl"
+  variant="secondary"
+>
+  {/* Product Image */}
+  <div className="relative aspect-square w-full overflow-hidden">
+    <Image
+      src={product.image}
+      alt={product.title}
+      fill
+      sizes="(max-width:768px)100vw,(max-width:1200px)50vw,33vw"
+      className="object-cover transition duration-500 group-hover:scale-105"
+    />
+  </div>
 
-        <p>{product.shortDescription}</p>
-      </Card.Header>
-      <Card.Content>
-        <div className="flex items-center gap-1 text-sm text-gray-500  mt-2">
-          <BiSolidLocationPlus
-            className="inline text-gray-500 "
-            size={18}
-          />
-          <span className="text-sm text-gray-500  ml-1">
-            {product.location}
-          </span>
-        </div>
-        <div className="flex items-center text-lg font-semibold text-gray-800 dark:text-gray-200">
-          <TbCurrencyTaka />
-          <span>{product.price}</span>
-          <span className="text-sm text-gray-500  ml-1">
-            Adoption Fee
-          </span>
-        </div>
-      </Card.Content>
+  {/* Header */}
+  <Card.Header>
+    <Card.Title className="line-clamp-1 text-xl font-bold text-gray-900">
+      {product.title}
+    </Card.Title>
 
-      <Card.Footer className="flex justify-between gap-2">
-        <Link
-          href={`/all-pets/${product._id}`}
-          className="px-4 py-2 bg-transparent border border-gray-300 font-medium text-black  rounded-md hover:bg-gray-300 hover:dark:bg-gray-600 hover:scale-105 transition"
-        >
-          View Details
-        </Link>
-      </Card.Footer>
-    </Card>
+    <span className="mt-2 inline-block w-fit rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold text-secondary">
+      {product.category}
+    </span>
+
+    <p className="mt-3 line-clamp-2 text-sm leading-6 text-gray-600">
+      {product.shortDescription}
+    </p>
+  </Card.Header>
+
+  {/* Content */}
+  <Card.Content>
+    <div className="mb-3 flex items-center gap-2 text-gray-500">
+      <BiSolidLocationPlus
+        className="text-secondary"
+        size={18}
+      />
+      <span className="text-sm">{product.location}</span>
+    </div>
+
+    <div className="flex items-center text-2xl font-bold text-primary">
+      <TbCurrencyTaka />
+      <span>{product.price}</span>
+    </div>
+  </Card.Content>
+
+  {/* Footer */}
+  <Card.Footer>
+    <Link
+      href={`/explore/${product._id}`}
+      className="w-full rounded-global bg-primary py-2.5 text-center font-semibold text-white transition-all duration-300 hover:bg-blue-800 hover:shadow-lg"
+    >
+      View Details
+    </Link>
+  </Card.Footer>
+</Card>
   );
 };
 

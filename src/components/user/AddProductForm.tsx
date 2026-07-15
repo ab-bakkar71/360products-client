@@ -303,7 +303,7 @@ const AddProductForm = ({user}: AddProductFormProps) => {
         {/* সাবমিট বাটন */}
         <Button
           type="submit"
-          className="w-full bg-secondary text-white font-bold py-6 shadow-md hover:opacity-95 transition-all active:scale-[0.99] mt-4 rounded-global cursor-pointer"
+          className="w-full bg-primary text-white font-bold py-6 shadow-md hover:opacity-95 transition-all active:scale-[0.99] mt-4 rounded-global cursor-pointer"
         >
           {
             loading ? "Adding Product" : "Add Product"
