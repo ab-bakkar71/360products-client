@@ -32,8 +32,8 @@ const Navbar = () => {
   const loggedInRoutes = [
     { name: "Home", path: "/" },
     { name: "Explore", path: "/explore" },
-    { name: "Add Item", path: "/items/add" },
-    { name: "Manage Items", path: "/items/manage" },
+    { name: "Add Item", path: "/products/add" },
+    { name: "Manage Items", path: "/products/manage" },
     { name: "About Us", path: "/about" },
   ];
 
