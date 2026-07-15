@@ -34,3 +34,18 @@ export const getSingleProduct = async (
   }
   return await res.json();
 };
+
+// user manage Product 
+
+export const getProductByEmail = async(email: string): Promise<Product>=>{
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/product/manage/${email}`,
+    {
+      cache: "no-store",
+    }
+  );
+  if (!res.ok) {
+    throw new Error("Failed to fetch product");
+  }
+  return await res.json();
+}

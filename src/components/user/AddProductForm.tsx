@@ -22,7 +22,7 @@ import {
 import { toast } from "react-toastify";
 
 type AddProductFormProps = {
-  user: User | null; // আপনার User টাইপ import করে নিন
+  user: User | null;
 };
 
 const AddProductForm = ({user}: AddProductFormProps) => {
@@ -300,7 +300,7 @@ const AddProductForm = ({user}: AddProductFormProps) => {
           <FieldError className="text-rose-500 text-xs mt-1" />
         </TextField>
 
-        {/* সাবমিট বাটন */}
+  
         <Button
           type="submit"
           className="w-full bg-primary text-white font-bold py-6 shadow-md hover:opacity-95 transition-all active:scale-[0.99] mt-4 rounded-global cursor-pointer"

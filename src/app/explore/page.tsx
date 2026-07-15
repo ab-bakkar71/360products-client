@@ -1,7 +1,7 @@
 
 import ProductCard from "@/components/ProductCard";
 import { getProduct } from "@/lib/data/data";
-import React from "react";
+
 
 const explorePage = async() => {
 
