@@ -45,7 +45,7 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white text-gray-700 shadow-[0px_4px_25px_0px_#0000000D] transition-all">
-      <nav className="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-6 md:px-16 lg:px-24">
+      <nav className="mx-auto flex h-[70px] container items-center justify-between px-6 md:px-16 lg:px-24">
         
      
         <Link

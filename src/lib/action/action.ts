@@ -4,7 +4,7 @@ import { ProductInput, ProductResponse } from "@/interfaces/interfaces";
 export const addProduct = async (
   addProductData: ProductInput,
 ): Promise<ProductResponse> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/add`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -11,6 +11,9 @@ export interface LoginInput {
 }
 
 export interface ProductInput {
+  _id?: string;
+
+
   title: string;
   shortDescription: string;
   fullDescription: string;
